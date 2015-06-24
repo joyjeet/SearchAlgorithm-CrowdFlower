@@ -117,7 +117,7 @@ train.productdesc <- CleanTextData(relevance.train$product_description)
 #gsub(pattern = "\\", replacement = "", train.query = train.query, ignore.case = T)
 
 #generate the required cleaned data frame (change the column names and remove the first column )
-train <- data.frame(query=train.query$text, title=train.producttitle$text, description=train.productdesc$text, stringsAsFactors = FALSE)
+train <- data.frame(query=train.query$text, title=train.producttitle$text, description=train.productdesc$text, median_relevance=relevance.train$median_relevance, stringsAsFactors = FALSE)
 
 # Find number of query matches in title
 TitleMatch <- mapply(CompareTwoVectors, train$query, train$title)
