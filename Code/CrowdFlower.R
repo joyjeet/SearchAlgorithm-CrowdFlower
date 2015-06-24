@@ -6,6 +6,8 @@
 ## Data source: Crowdflower data on search queries and their results
 ## install tm package if not already installed install.packages("tm")
 ## install package readr install.packages("readr")
+## install package SnowballC install.packages("SnowballC")
+## install package stringr install.packages("stringr")
 ###################################################################################
 
 library(readr)
