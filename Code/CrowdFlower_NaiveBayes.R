@@ -8,7 +8,7 @@
 ## install package readr install.packages("readr")
 ## install package SnowballC install.packages("SnowballC")
 ## install package stringr install.packages("stringr")
-## install pacakge e1071
+## install pacakge install.packages("e1071")
 ###################################################################################
 
 library(readr)
@@ -169,15 +169,16 @@ AugmentedData$median_relevance <- as.factor(AugmentedData$median_relevance)
 ###############################
 ## randomly choose 1/2 of the data set as training data
 #set.seed(777)
-#random.rows.train <- sample(1:nrow(AugmentedData), 0.5*nrow(AugmentedData), replace=F)
-#AugmentedData.train <- AugmentedData[random.rows.train,]
+random.rows.train <- sample(1:nrow(AugmentedData), 0.5*nrow(AugmentedData), replace=F)
+AugmentedData.train <- AugmentedData[random.rows.train,]
 #dim(AugmentedData.train)
 ## select the other 1/2 left as the testing data
-#random.rows.test <- setdiff(1:nrow(AugmentedData),random.rows.train)
-#AugmentedData.test <- AugmentedData[random.rows.test,]
+random.rows.test <- setdiff(1:nrow(AugmentedData),random.rows.train)
+AugmentedData.test <- AugmentedData[random.rows.test,]
 #dim(AugmentedData.test)
 ## fitting decision model on training set
-AugmentedData.model <- naiveBayes(median_relevance ~., data = AugmentedData)
+#AugmentedData.model <- naiveBayes(median_relevance ~., data = AugmentedData)
+AugmentedData.model <- naiveBayes(median_relevance ~., data = AugmentedData.train)
 
 ## MODEL EVALUATION
 ## make prediction using decision model
