@@ -105,6 +105,14 @@ CompareTwoVectors <- function(query, document)
   as.vector(length(docmatch))
 }
 
+Frequency <- function(query, document)
+{
+  train.extendquery <- unique(unlist(strsplit(query," ")))
+  train.extendeddoc <- unique(unlist(strsplit(document," ")))
+  docmatch <- mapply(function(x)length(which(train.extendeddoc==x)), train.extendquery)
+  #docmatch <- intersect(train.extendquery,train.extendeddoc)
+  as.vector(sum(docmatch))
+}
 
 ####################################################################
 ## GET THE DATA
@@ -158,9 +166,14 @@ DescMatch <- mapply(CompareTwoVectors, train$query, train$description)
 # Find the number of query string words to add as dimension
 NumQueryTokens <- mapply(function(x)length(unlist(strsplit(x," "))), train$query)
 
+# Find frequency of query matches in title
+TitleFreq <- mapply(Frequency, train$query, train$title)
+# Find freq of query matches in description
+DescFreq <- mapply(Frequency, train$query, train$description)
+
 
 ## ADD Required dimensions to data
-AugmentedData <- data.frame(train, TitleMatch=TitleMatch, DescMatch=DescMatch, NumQueryTokens=NumQueryTokens, stringsAsFactors = FALSE)
+AugmentedData <- data.frame(train, TitleMatch=TitleMatch, DescMatch=DescMatch, NumQueryTokens=NumQueryTokens, TitleFreq=TitleFreq, DescFreq=DescFreq, stringsAsFactors = FALSE)
 ExactMatch <- as.factor(mapply(FindFullMatch_Mod, AugmentedData$TitleMatch, AugmentedData$DescMatch, AugmentedData$NumQueryTokens))
 AugmentedData$ExactMatch <- ExactMatch
 AugmentedData$median_relevance <- as.factor(AugmentedData$median_relevance)
